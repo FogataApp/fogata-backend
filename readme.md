@@ -36,7 +36,11 @@ _En el puerto 3000 correra la app y se podran hacer las diferentes peticiones al
 
 ## Endpoints 🔚
 
-_mas adelante se agregaran_
+_Colección de ejemplos en Postman_
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2071645d3bc919ba8c47)
+
+https://documenter.getpostman.com/view/11933925/TVRpz4kp
 
 ## Despliegue 📦
 

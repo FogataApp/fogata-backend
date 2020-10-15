@@ -4,7 +4,8 @@
   "description": "This is the Backend app of the Fogata App",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "set DEBUG=app:*&& nodemon index",
+    "start": "NODE_ENV=production node index"
   },
   "keywords": [
     "Node.JS",
