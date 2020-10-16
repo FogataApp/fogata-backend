@@ -1,28 +1,38 @@
-const { placesMock } = require('../utils/mocks/places')
+const MongoLib = require('../lib/mongo')
 
 class PlacesService {
-  async getPlaces() {
-    const places = await Promise.resolve(placesMock)
+  constructor() {
+    this.collection = 'places'
+    this.mongoDB = new MongoLib()
+  }
+
+  async getPlaces({ tags }) {
+    const query = tags && { tags: { $in: tags } }
+    const places = await this.mongoDB.getAll(this.collection, query)
     return places || []
   }
 
-  async getPlace() {
-    const place = await Promise.resolve(placesMock[0])
+  async getPlace({ placeId }) {
+    const place = await this.mongoDB.get(this.collection, placeId)
     return place || {}
   }
 
-  async createPlace() {
-    const createPlaceId = await Promise.resolve(placesMock[0].id)
+  async createPlace({ place }) {
+    const createPlaceId = await this.mongoDB.create(this.collection, place)
     return createPlaceId
   }
 
-  async updatePlace() {
-    const updatedPlaceId = await Promise.resolve(placesMock[0].id)
+  async updatePlace({ placeId, place } = {}) {
+    const updatedPlaceId = await this.mongoDB.update(
+      this.collection,
+      placeId,
+      place
+    )
     return updatedPlaceId
   }
 
-  async deletePlace() {
-    const deletedPlaceId = await Promise.resolve(placesMock[0].id)
+  async deletePlace({ movieId }) {
+    const deletedPlaceId = await this.mongoDB.delete(this.collection, movieId)
     return deletedPlaceId
   }
 }

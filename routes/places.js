@@ -44,8 +44,8 @@ function placesAPI(app) {
         data: createPlaceId,
         message: 'places created',
       })
-    } catch (error) {
-      next(error)
+    } catch (err) {
+      next(err)
     }
   })
 
