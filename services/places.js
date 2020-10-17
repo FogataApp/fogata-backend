@@ -31,8 +31,8 @@ class PlacesService {
     return updatedPlaceId
   }
 
-  async deletePlace({ movieId }) {
-    const deletedPlaceId = await this.mongoDB.delete(this.collection, movieId)
+  async deletePlace({ placeId }) {
+    const deletedPlaceId = await this.mongoDB.delete(this.collection, placeId)
     return deletedPlaceId
   }
 }
