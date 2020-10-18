@@ -1,6 +1,14 @@
 const express = require('express')
 const PlacesService = require('../services/places')
 
+const {
+  placeIdSchema,
+  createPlaceSchema,
+  updatePlaceSchema,
+} = require('../utils/schemas/places')
+
+const validationHandler = require('../utils/middleware/validationHandler')
+
 function placesAPI(app) {
   const router = express.Router()
   app.use('/api/places', router)
@@ -21,21 +29,29 @@ function placesAPI(app) {
     }
   })
 
-  router.get('/:placeId', async function (req, res, next) {
-    const { placeId } = req.params
-    try {
-      const places = await placesService.getPlace({ placeId })
+  router.get(
+    '/:placeId',
+    validationHandler({ placeId: placeIdSchema }, 'params'),
+    async function (req, res, next) {
+      const { placeId } = req.params
+      try {
+        const places = await placesService.getPlace({ placeId })
 
-      res.status(200).json({
-        data: places,
-        message: 'place retrieve',
-      })
-    } catch (error) {
-      next(error)
+        res.status(200).json({
+          data: places,
+          message: 'place retrieve',
+        })
+      } catch (error) {
+        next(error)
+      }
     }
-  })
+  )
 
-  router.post('/', async function (req, res, next) {
+  router.post('/', validationHandler(createPlaceSchema), async function (
+    req,
+    res,
+    next
+  ) {
     const { body: place } = req
     try {
       const createPlaceId = await placesService.createPlace({ place })
@@ -49,37 +65,46 @@ function placesAPI(app) {
     }
   })
 
-  router.put('/:placeId', async function (req, res, next) {
-    const { placeId } = req.params
-    const { body: place } = req
-    try {
-      const updatedPlaceId = await placesService.updatePlace({
-        placeId,
-        place,
-      })
+  router.put(
+    '/:placeId',
+    validationHandler({ placeId: placeIdSchema }, 'params'),
+    validationHandler(updatePlaceSchema),
+    async function (req, res, next) {
+      const { placeId } = req.params
+      const { body: place } = req
+      try {
+        const updatedPlaceId = await placesService.updatePlace({
+          placeId,
+          place,
+        })
 
-      res.status(200).json({
-        data: updatedPlaceId,
-        message: 'place updated',
-      })
-    } catch (error) {
-      next(error)
+        res.status(200).json({
+          data: updatedPlaceId,
+          message: 'place updated',
+        })
+      } catch (error) {
+        next(error)
+      }
     }
-  })
+  )
 
-  router.delete('/:placeId', async function (req, res, next) {
-    const { placeId } = req.params
-    try {
-      const deletedPlaceId = await placesService.deletePlace({ placeId })
+  router.delete(
+    '/:placeId',
+    validationHandler({ placeId: placeIdSchema }, 'params'),
+    async function (req, res, next) {
+      const { placeId } = req.params
+      try {
+        const deletedPlaceId = await placesService.deletePlace({ placeId })
 
-      res.status(200).json({
-        data: deletedPlaceId,
-        message: 'place deleted',
-      })
-    } catch (error) {
-      next(error)
+        res.status(200).json({
+          data: deletedPlaceId,
+          message: 'place deleted',
+        })
+      } catch (error) {
+        next(error)
+      }
     }
-  })
+  )
 }
 
 module.exports = placesAPI
