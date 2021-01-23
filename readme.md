@@ -44,7 +44,7 @@ https://documenter.getpostman.com/view/11933925/TVRpz4kp
 
 ## Despliegue 📦
 
-_Agrega notas adicionales sobre como hacer deploy_
+https://fogata-backend.herokuapp.com/api/places
 
 ## Construido con 🛠️
 
